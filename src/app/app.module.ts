@@ -10,7 +10,7 @@ import { HomePage } from '../pages/home/home';
 import { SignupPage } from '../pages/signup/signup';
 import { SigninPage } from '../pages/signin/signin';
 
-import { AngularFireModule, FirebaseAppConfig } from 'angularfire2';
+import { AngularFireModule, FirebaseAppConfig, AuthProviders, AuthMethods } from 'angularfire2';
 import { UserService } from '../providers/user/user.service';
 import { AuthService } from '../providers/auth/auth.service';
 
@@ -20,6 +20,11 @@ const firebaseAppConfig: FirebaseAppConfig = {
     databaseURL: "https://ionic-chat-544c6.firebaseio.com",
     storageBucket: "ionic-chat-544c6.appspot.com",
     messagingSenderId: "553694861113"
+}
+
+const firebaseAuthConfig = {
+  provider: AuthProviders.Custom,
+  method: AuthMethods.Password
 }
 
 @NgModule({
@@ -33,7 +38,7 @@ const firebaseAppConfig: FirebaseAppConfig = {
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp),
-    AngularFireModule.initializeApp(firebaseAppConfig)
+    AngularFireModule.initializeApp(firebaseAppConfig, firebaseAuthConfig)
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from './../../providers/user/user.service';
 import { AuthService } from './../../providers/auth/auth.service';
 import { User } from './../../models/user.model';
+import { HomePage } from '../home/home';
 
 @Component({
   selector: 'page-signup',
@@ -51,8 +52,8 @@ export class SignupPage {
 
                this.userService.createUser(this.signupForm.value)
             .then( () => {
+              this.navCtrl.setRoot(HomePage);
               loading.dismiss();
-              console.log("User created");
             }).catch((err: any) => {
               console.log(err);
               loading.dismiss();

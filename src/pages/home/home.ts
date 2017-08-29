@@ -4,6 +4,7 @@ import {  FirebaseListObservable } from 'angularfire2';
 import { User } from './../../models/user.model';
 import { SignupPage } from '../signup/signup';
 import { UserService }  from '../../providers/user/user.service';
+import { AuthService }  from '../../providers/auth/auth.service';
 
 @Component({
   selector: 'page-home',
@@ -12,12 +13,19 @@ import { UserService }  from '../../providers/user/user.service';
 export class HomePage {
 	users: FirebaseListObservable<User[]>;
 
-  constructor(public navCtrl: NavController, public usersService: UserService) {
+  constructor(
+    public navCtrl: NavController,
+    public usersService: UserService,
+    public authService: AuthService) {
 
   }
 
   ionViewDidLoad() {
   	this.users = this.usersService.users;
+  }
+
+  ionViewCanEnter(): Promise<boolean> {
+    return this.authService.authenticated;
   }
   
   onSignUp() {
