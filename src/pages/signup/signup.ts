@@ -36,27 +36,39 @@ export class SignupPage {
   onSubmit() {
     let loading: Loading = this.showLoading();
     let formUser = this.signupForm.value;
-    this.authService.createAuthUser({
-      email: formUser.email,
-      password: formUser.password
-    }).then(authState => {
-         delete formUser.password;
-         formUser.uid = authState.auth.uid;
+    let username: string = formUser.username;
 
-         this.userService.createUser(this.signupForm.value)
-      .then( () => {
-        loading.dismiss();
-        console.log("User created");
-      }).catch((err: any) => {
-        console.log(err);
-        loading.dismiss();
-        this.showAlert(err);
-      });
-    }).catch((err: any) => {
-      console.log(err);
-      loading.dismiss();
-      this.showAlert(err);
-    });
+    this.userService.userExists(username)
+      .first()
+      .subscribe(user => {
+        if (!user) {
+         this.authService.createAuthUser({
+            email: formUser.email,
+            password: formUser.password
+          }).then(authState => {
+               delete formUser.password;
+               formUser.uid = authState.auth.uid;
+
+               this.userService.createUser(this.signupForm.value)
+            .then( () => {
+              loading.dismiss();
+              console.log("User created");
+            }).catch((err: any) => {
+              console.log(err);
+              loading.dismiss();
+              this.showAlert(err);
+            });
+          }).catch((err: any) => {
+            console.log(err);
+            loading.dismiss();
+            this.showAlert(err);
+          });
+        } else {
+          this.showAlert(`Username ${username} already been used`);
+          loading.dismiss();
+        }
+      })
+ 
   }
 
   private showLoading(): Loading {
