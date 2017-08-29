@@ -11,7 +11,7 @@
 	<h1 text-center>
 		<ion-icon name="person-add" color="primary" class="auth-icon"></ion-icon>
 	</h1>
-	<form (ngsubmit)="onSubmit()" [formGroup]="signupForm">
+	<form (ngSubmit)="onSubmit()" [formGroup]="signupForm">
 		<ion-item>
 			<ion-icon name="person" item-left></ion-icon>
 			<ion-input type="text" placeholder="Name" formControlName="name"></ion-input>
