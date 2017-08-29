@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Loading, LoadingController, AlertController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from './../../providers/user/user.service';
 import { AuthService } from './../../providers/auth/auth.service';
@@ -13,9 +13,11 @@ export class SignupPage {
 	signupForm: FormGroup;
 
   constructor(
+    public alertCtrl: AlertController,
   	public navCtrl: NavController,
   	public navParams: NavParams,
   	public fb: FormBuilder,
+    public loadingCrtl: LoadingController,
     public userService: UserService,
     public authService: AuthService) {
 
@@ -32,16 +34,45 @@ export class SignupPage {
   }
 
   onSubmit() {
-
-
+    let loading: Loading = this.showLoading();
     let formUser = this.signupForm.value;
     this.authService.createAuthUser({
       email: formUser.email,
       password: formUser.password
     }).then(authState => {
-          this.userService.createUser(this.signupForm.value)
-      .then( () => console.log("User created"))
-    })
+         delete formUser.password;
+         formUser.uid = authState.auth.uid;
+
+         this.userService.createUser(this.signupForm.value)
+      .then( () => {
+        loading.dismiss();
+        console.log("User created");
+      }).catch(err => {
+        console.log(err);
+        loading.dismiss();
+        this.showAlert(err.message);
+      });
+    }).catch(err => {
+      console.log(err);
+      loading.dismiss();
+      this.showAlert(err.message);
+    });
+  }
+
+  private showLoading(): Loading {
+    let loading: Loading = this.loadingCrtl.create({
+      content: 'Please Wait...'
+    });
+
+    loading.present();
+    return loading;
+  }
+
+  private showAlert(message: string): void {
+    this.alertCtrl.create({
+      message: message,
+      buttons: ['ok'] 
+    }).present();
   }
 
 }
