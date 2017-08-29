@@ -47,15 +47,15 @@ export class SignupPage {
       .then( () => {
         loading.dismiss();
         console.log("User created");
-      }).catch(err => {
+      }).catch((err: any) => {
         console.log(err);
         loading.dismiss();
-        this.showAlert(err.message);
+        this.showAlert(err);
       });
-    }).catch(err => {
+    }).catch((err: any) => {
       console.log(err);
       loading.dismiss();
-      this.showAlert(err.message);
+      this.showAlert(err);
     });
   }
 
