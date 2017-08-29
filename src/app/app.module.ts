@@ -10,9 +10,13 @@ import { HomePage } from '../pages/home/home';
 import { SignupPage } from '../pages/signup/signup';
 import { SigninPage } from '../pages/signin/signin';
 
+import { CustomLoggedHeaderComponent } from '../components/custom-logged-header/custom-logged-header.component';
+
 import { AngularFireModule, FirebaseAppConfig, AuthProviders, AuthMethods } from 'angularfire2';
 import { UserService } from '../providers/user/user.service';
 import { AuthService } from '../providers/auth/auth.service';
+
+import { CapitalizePipe } from '../pipes/capitalize.pipe';
 
 const firebaseAppConfig: FirebaseAppConfig = {
     apiKey: "AIzaSyCevQL7jN4iJFbl7YL0rhHQkVPy-lQE-o4",
@@ -29,10 +33,12 @@ const firebaseAuthConfig = {
 
 @NgModule({
   declarations: [
+    CapitalizePipe,
     MyApp,
     HomePage,
     SignupPage,
-    SigninPage
+    SigninPage,
+    CustomLoggedHeaderComponent
   ],
   imports: [
     BrowserModule,

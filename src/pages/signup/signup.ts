@@ -3,7 +3,6 @@ import { NavController, NavParams, Loading, LoadingController, AlertController }
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from './../../providers/user/user.service';
 import { AuthService } from './../../providers/auth/auth.service';
-import { User } from './../../models/user.model';
 import { HomePage } from '../home/home';
 
 @Component({
