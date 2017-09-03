@@ -1,17 +1,30 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { AngularFire, FirebaseListObservable, FireBaseObjectObservable } from 'angularfire2';
 import { User } from './../../models/user.model';
 import { BaseService } from './../base.service';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class UserService extends BaseService {
-	users: FirebaseListObservable<User[]>
+	users: FirebaseListObservable<User[]>;
+  currentUser: FireBaseObjectObservable<User>;
+
+
   constructor(public http: Http, public af: AngularFire) {
   	super();
     this.users = this.af.database.list('/users');
+    this.listerAuthState();
+  }
+
+  private listerAuthState(): void {
+    this.af.auth
+      .subscribe(authState => {
+        if (authState) {
+          this.currentUser = this.af.database.object(`/users/${authState.auth.uid}`);
+        }
+      });
   }
 
   createUser(user: User, uuid: string): firebase.Promise<void> {
