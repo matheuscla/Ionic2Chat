@@ -47,9 +47,9 @@ export class SignupPage {
             password: formUser.password
           }).then(authState => {
                delete formUser.password;
-               formUser.uid = authState.auth.uid;
+               let uuid: string = authState.auth.uid;
 
-               this.userService.createUser(this.signupForm.value)
+               this.userService.createUser(this.signupForm.value, uuid)
             .then( () => {
               this.navCtrl.setRoot(HomePage);
               loading.dismiss();

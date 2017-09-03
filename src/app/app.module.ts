@@ -9,6 +9,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { SignupPage } from '../pages/signup/signup';
 import { SigninPage } from '../pages/signin/signin';
+import { ChatPage } from '../pages/chat/chat';
 
 import { CustomLoggedHeaderComponent } from '../components/custom-logged-header/custom-logged-header.component';
 
@@ -38,7 +39,8 @@ const firebaseAuthConfig = {
     HomePage,
     SignupPage,
     SigninPage,
-    CustomLoggedHeaderComponent
+    CustomLoggedHeaderComponent,
+    ChatPage
   ],
   imports: [
     BrowserModule,
@@ -51,7 +53,8 @@ const firebaseAuthConfig = {
     MyApp,
     HomePage,
     SignupPage,
-    SigninPage
+    SigninPage,
+    ChatPage
   ],
   providers: [  
     StatusBar,
