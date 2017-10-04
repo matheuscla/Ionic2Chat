@@ -18,6 +18,7 @@ import { UserService } from '../providers/user/user.service';
 import { AuthService } from '../providers/auth/auth.service';
 
 import { CapitalizePipe } from '../pipes/capitalize.pipe';
+import { ChatService } from '../providers/chat/chat.service';
 
 const firebaseAppConfig: FirebaseAppConfig = {
     apiKey: "AIzaSyCevQL7jN4iJFbl7YL0rhHQkVPy-lQE-o4",
@@ -56,12 +57,13 @@ const firebaseAuthConfig = {
     SigninPage,
     ChatPage
   ],
-  providers: [  
+  providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UserService,
-    AuthService
+    AuthService,
+    ChatService
   ]
 })
 export class AppModule {}

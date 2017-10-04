@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
-import { AngularFire, FirebaseListObservable, FireBaseObjectObservable } from 'angularfire2';
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { User } from './../../models/user.model';
 import { BaseService } from './../base.service';
 import { Observable } from 'rxjs/Observable';
@@ -9,20 +9,30 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class UserService extends BaseService {
 	users: FirebaseListObservable<User[]>;
-  currentUser: FireBaseObjectObservable<User>;
+  currentUser: FirebaseObjectObservable<User>;
 
 
   constructor(public http: Http, public af: AngularFire) {
   	super();
-    this.users = this.af.database.list('/users');
-    this.listerAuthState();
+    this.listenAuthState();
   }
 
-  private listerAuthState(): void {
+  private setUsers(uidToExclude: string) {
+    this.users = <FirebaseListObservable<User[]>>this.af.database.list(`/users`, {
+      query: {
+        orderByChild: 'name'
+      }
+    }).map(users => {
+			return users.filter(user => user.$key != uidToExclude);
+    });
+  }
+
+  private listenAuthState(): void {
     this.af.auth
       .subscribe(authState => {
         if (authState) {
           this.currentUser = this.af.database.object(`/users/${authState.auth.uid}`);
+          this.setUsers(authState.auth.uid);
         }
       });
   }
