@@ -16,7 +16,13 @@
 <ion-content padding>
 	<div [ngSwitch]="view">
 		<ion-list no-lines *ngSwitchCase="'chats'">
-			<ion-item>Chats</ion-item>
+			<button ion-item *ngFor="let chat of chats | async">
+        <h2>{{chat.title}}</h2>
+        <p *ngIf="chat.lastMessage; else customMessage">{{chat.timestamp | date: 'dd/MM/y H:mm'}} - {{chat.lastMessage}}</p>
+        <ng-template #customMessage>
+          <p>No messages</p>
+        </ng-template>
+      </button>
 		</ion-list>
 		<ion-list no-lines *ngSwitchCase="'users'">
 			<ion-item>Users</ion-item>
