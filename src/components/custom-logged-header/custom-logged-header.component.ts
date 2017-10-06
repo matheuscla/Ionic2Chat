@@ -10,6 +10,8 @@ import { AuthService } from './../../providers/auth/auth.service';
 export class CustomLoggedHeaderComponent extends BaseComponent {
 
 	@Input() title: string;
+  @Input() user;
+  
   constructor(
   	public alertCtrl: AlertController,
 		public authService: AuthService,

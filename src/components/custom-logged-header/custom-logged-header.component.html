@@ -3,7 +3,16 @@
 		<ion-icon name="menu"></ion-icon>
 	</button>
 	<ion-title>
-		{{ title }}
+		<ion-item color="transparent" detail-none no-lines *ngIf="user; else titleTemplate">
+			<ion-avatar item-left>
+				<img [src]="user.photo || 'assests/images/no-photo.jpg'">
+			</ion-avatar>
+			{{ title }}
+		</ion-item>
+
+		<ng-template #titleTemplate>
+			{{ title }}
+		</ng-template>
 	</ion-title>
 	<ion-buttons end>
 		<button ion-button icon-only (click)="onLogout()">
