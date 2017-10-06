@@ -13,6 +13,8 @@ import { ChatPage } from '../pages/chat/chat';
 
 import { CustomLoggedHeaderComponent } from '../components/custom-logged-header/custom-logged-header.component';
 import { MessageBoxComponent } from '../components/message-box/message-box.component';
+import { UserInfoComponent } from '../components/user-info/user-info.component';
+import { UserMenuComponent } from '../components/user-menu/user-menu.component';
 
 import { AngularFireModule, FirebaseAppConfig, AuthProviders, AuthMethods } from 'angularfire2';
 import { UserService } from '../providers/user/user.service';
@@ -44,7 +46,9 @@ const firebaseAuthConfig = {
     SigninPage,
     CustomLoggedHeaderComponent,
     ChatPage,
-    MessageBoxComponent
+    MessageBoxComponent,
+    UserInfoComponent,
+    UserMenuComponent
   ],
   imports: [
     BrowserModule,
