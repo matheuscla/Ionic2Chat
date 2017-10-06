@@ -16,6 +16,7 @@ import { CustomLoggedHeaderComponent } from '../components/custom-logged-header/
 import { MessageBoxComponent } from '../components/message-box/message-box.component';
 import { UserInfoComponent } from '../components/user-info/user-info.component';
 import { UserMenuComponent } from '../components/user-menu/user-menu.component';
+import { ProgressBarComponent } from '../components/progress-bar/progress-bar.component';
 
 import { AngularFireModule, FirebaseAppConfig, AuthProviders, AuthMethods } from 'angularfire2';
 import { UserService } from '../providers/user/user.service';
@@ -50,7 +51,8 @@ const firebaseAuthConfig = {
     MessageBoxComponent,
     UserInfoComponent,
     UserMenuComponent,
-    UserProfilePage
+    UserProfilePage,
+    ProgressBarComponent
   ],
   imports: [
     BrowserModule,
