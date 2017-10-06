@@ -27,4 +27,19 @@ export class UserProfilePage {
     return this.authService.authenticated;
   }
 
+  onSubmit(event) {
+    event.preventDefault();
+    this.editUser();
+  }
+
+  private editUser(photoUrl?) {
+      this.userService
+        .edit({name: this.currentUser.name,
+              username: this.currentUser.username,
+              photo: photoUrl || this.currentUser.photo || ''})
+        .then(() => {
+          this.canEdit = false;
+        })
+  }
+
 }

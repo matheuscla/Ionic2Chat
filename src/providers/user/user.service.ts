@@ -43,6 +43,12 @@ export class UserService extends BaseService {
       .catch(this.handlePromiseError)
   }
 
+	edit(user) {
+		return this.currentUser
+			.update(user)
+			.catch(this.handlePromiseError)
+	}
+
   userExists(username: string): Observable<boolean> {
     return this.af.database.list(`/users`, {
       query: {
