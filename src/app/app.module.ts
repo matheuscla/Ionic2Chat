@@ -10,6 +10,7 @@ import { HomePage } from '../pages/home/home';
 import { SignupPage } from '../pages/signup/signup';
 import { SigninPage } from '../pages/signin/signin';
 import { ChatPage } from '../pages/chat/chat';
+import { UserProfilePage } from '../pages/user-profile/user-profile';
 
 import { CustomLoggedHeaderComponent } from '../components/custom-logged-header/custom-logged-header.component';
 import { MessageBoxComponent } from '../components/message-box/message-box.component';
@@ -48,7 +49,8 @@ const firebaseAuthConfig = {
     ChatPage,
     MessageBoxComponent,
     UserInfoComponent,
-    UserMenuComponent
+    UserMenuComponent,
+    UserProfilePage
   ],
   imports: [
     BrowserModule,
@@ -62,7 +64,8 @@ const firebaseAuthConfig = {
     HomePage,
     SignupPage,
     SigninPage,
-    ChatPage
+    ChatPage,
+    UserProfilePage
   ],
   providers: [
     StatusBar,
