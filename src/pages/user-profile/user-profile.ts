@@ -10,6 +10,8 @@ import { UserService } from './../../providers/user/user.service';
 export class UserProfilePage {
   currentUser;
   canEdit: boolean = false;
+  private filePhoto;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -29,7 +31,24 @@ export class UserProfilePage {
 
   onSubmit(event) {
     event.preventDefault();
-    this.editUser();
+
+    if (this.filePhoto) {
+      let uploadTask = this.userService.uploadPhoto(this.filePhoto, this.currentUser.$key);
+
+      uploadTask.on('state_changed', (snapshot) =>{
+
+      }, (error) => {
+
+      }, () => {
+        this.editUser(uploadTask.snapshot.downloadURL);
+      })
+    } else {
+      this.editUser();
+    }
+  }
+
+  onPhoto(event) {
+    this.filePhoto = event.target.files[0];
   }
 
   private editUser(photoUrl?) {
@@ -39,6 +58,7 @@ export class UserProfilePage {
               photo: photoUrl || this.currentUser.photo || ''})
         .then(() => {
           this.canEdit = false;
+          this.filePhoto = undefined;
         })
   }
 
