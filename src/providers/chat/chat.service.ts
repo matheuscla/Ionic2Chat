@@ -43,4 +43,13 @@ export class ChatService extends BaseService {
       .catch(this.handleObservableError)
   }
 
+  updatePhoto(chat, chatPhoto, recipientUserPhoto) {
+    if (chatPhoto != recipientUserPhoto) {
+      return chat.update(
+        { photo: recipientUserPhoto }
+      );
+    }
+    return Promise.resolve();
+  }
+
 }
