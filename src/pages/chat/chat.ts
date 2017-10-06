@@ -4,6 +4,7 @@ import { AuthService } from '../../providers/auth/auth.service';
 import { User } from './../../models/user.model';
 import { UserService } from './../../providers/user/user.service';
 import { MessageService } from '../../providers/message/message.service';
+import { ChatService } from '../../providers/chat/chat.service';
 import firebase from 'firebase';
 import { Message } from './../../models/message.model';
 
@@ -16,8 +17,12 @@ export class ChatPage {
   pageTitle: string;
   sender: User;
   recipient: User;
+  private chat1;
+  private chat2;
+
 
   constructor(
+    public chatService: ChatService,
     public messageService: MessageService,
   	public navCtrl: NavController,
   	public navParams: NavParams,
@@ -31,10 +36,17 @@ export class ChatPage {
 
   sendMessage(newMessage: string): void {
     if (newMessage) {
-      let timestamp = firebase.database.ServerValue.TIMESTAMP;
+      let currentTimestamp = firebase.database.ServerValue.TIMESTAMP;
 
       this.messageService
-        .create(new Message(this.sender.$key, newMessage, timestamp), this.messages);
+        .create(new Message(this.sender.$key, newMessage, currentTimestamp), this.messages)
+        .then(() => {
+          this.chat1
+            .update({lastMessage: newMessage, timestamp: currentTimestamp});
+
+          this.chat2
+            .update({lastMessage: newMessage, timestamp: currentTimestamp});
+        })
 
     }
   }
@@ -46,7 +58,11 @@ export class ChatPage {
     this.userService.currentUser
       .first()
       .subscribe(currentUser => {
-        this.sender = currentUser
+        this.sender = currentUser;
+
+        this.chat1 = this.chatService.getDeepChat(this.sender.$key, this.recipient.$key);
+        this.chat2 = this.chatService.getDeepChat(this.recipient.$key, this.sender.$key);
+
         this.messages = this.messageService
           .getMessages(this.sender.$key, this.recipient.$key);
 
