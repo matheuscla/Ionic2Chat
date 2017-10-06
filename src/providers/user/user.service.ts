@@ -54,4 +54,9 @@ export class UserService extends BaseService {
     }).catch(this.handleObservableError);
   }
 
+	getUserById(userId) {
+		return this.af.database.object(`/users/${userId}`)
+			.catch(this.handleObservableError);
+	}
+
 }

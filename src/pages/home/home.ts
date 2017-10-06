@@ -65,4 +65,16 @@ export class HomePage {
       recipientUser: recipientUser
     })
   }
+
+  onChatOpen(chat: Chat) {
+    let recipientUserId: string = chat.$key;
+
+    this.usersService.getUserById(recipientUserId)
+      .first()
+      .subscribe(user =>  {
+        this.navCtrl.push(ChatPage, {
+          recipientUser: user
+        })
+      })
+  }
 }
