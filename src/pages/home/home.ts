@@ -33,6 +33,32 @@ export class HomePage {
   	this.users = this.usersService.users;
   }
 
+  filterItems(event) {
+    let searchTerm: string = event.target.value;
+
+    this.chats = this.chatService.chats;
+  	this.users = this.usersService.users;
+
+    if (searchTerm) {
+      switch(this.view) {
+        case 'chats':
+          this.chats = <FirebaseListObservable<Chat[]>>this.chats.map(chats => {
+             return chats.filter(chat => {
+               return (chat.title.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1)
+             })
+          })
+          break;
+        case 'users':
+          this.users = <FirebaseListObservable<User[]>>this.users.map(users => {
+             return users.filter(user => {
+               return (user.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1)
+             })
+          })
+          break
+      }
+    }
+  }
+
   ionViewCanEnter(): Promise<boolean> {
     return this.authService.authenticated;
   }

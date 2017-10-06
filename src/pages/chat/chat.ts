@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, NavParams, Content } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
 import { User } from './../../models/user.model';
 import { UserService } from './../../providers/user/user.service';
@@ -19,7 +19,7 @@ export class ChatPage {
   recipient: User;
   private chat1;
   private chat2;
-
+  @ViewChild(Content) content: Content;
 
   constructor(
     public chatService: ChatService,
@@ -63,6 +63,13 @@ export class ChatPage {
         this.chat1 = this.chatService.getDeepChat(this.sender.$key, this.recipient.$key);
         this.chat2 = this.chatService.getDeepChat(this.recipient.$key, this.sender.$key);
 
+        let doSubscription = () => {
+          this.messages
+            .subscribe(messages => {
+              this.scrollToBottom();
+            })
+        };
+
         this.messages = this.messageService
           .getMessages(this.sender.$key, this.recipient.$key);
 
@@ -72,9 +79,22 @@ export class ChatPage {
             if (messages.length == 0) {
               this.messages = this.messageService
                 .getMessages(this.recipient.$key, this.sender.$key);
+                
+              doSubscription();
+            } else {
+              doSubscription();
             }
           })
       });
+  }
+
+  private scrollToBottom(duration?) {
+    setTimeout(() => {
+      if (this.content) {
+        this.content.scrollToBottom(duration || 300);
+      }
+    }, 50);
+
   }
 
 }

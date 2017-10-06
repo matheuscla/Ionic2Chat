@@ -17,7 +17,8 @@ export class MessageService extends BaseService {
   getMessages(userId1: string, userId2: string) {
     return this.af.database.list(`/messages/${userId1}-${userId2}`, {
       query: {
-        orderByChild: 'timestamp'
+        orderByChild: 'timestamp',
+        limitToLast: 30
       }
     }).catch(this.handleObservableError)
   }
